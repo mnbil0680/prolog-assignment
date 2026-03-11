@@ -56,6 +56,27 @@ collect_ratings(Book, [Student|Tail], [(Student,Score)|ResultsTail]) :-
 collect_ratings(Book, [_|Tail], ResultsTail) :-
     collect_ratings(Book, Tail, ResultsTail).
 
+
+% find_top_rating(+StudentsList, +CurrentMaxScore, +CurrentTopStudent, -FinalTopStudent)
+find_top_rating([], _, TopStudent, TopStudent).
+
+find_top_rating([Student|Tail], CurrentMax, CurrentTopStudent, TopStudent) :-
+    all_books(AllBooks),
+    check_books_ratings(Student, AllBooks, CurrentMax, CurrentTopStudent, NewMax, NewTop),
+    find_top_rating(Tail, NewMax, NewTop, TopStudent).
+
+% check_books_ratings(+Student, +BooksList, +CurrentMax, +CurrentTopStudent, -FinalMax, -FinalTop)
+check_books_ratings(_, [], CurrentMax, CurrentTopStudent, CurrentMax, CurrentTopStudent).
+
+check_books_ratings(Student, [Book|Tail], CurrentMax, CurrentTopStudent, FinalMax, FinalTop) :-
+    ( rating(Student, Book, Score), Score > CurrentMax ->
+        TempMax = Score,
+        TempTop = Student
+    ;
+        TempMax = CurrentMax,
+        TempTop = CurrentTopStudent
+    ),
+    check_books_ratings(Student, Tail, TempMax, TempTop, FinalMax, FinalTop).
 %------------------------------------ Main Tasks-------------------------------------%
 books_borrowed_by_student(Student, L) :-
     all_books(AllBooks),
@@ -72,3 +93,7 @@ most_borrowed_book(B):-
 ratings_of_book(Book, L) :-
     all_students(Students),
     collect_ratings(Book, Students, L).
+
+top_reviewer(Student) :-
+    all_students(Students),
+    find_top_rating(Students, 0, none, Student).

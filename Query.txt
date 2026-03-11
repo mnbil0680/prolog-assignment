@@ -59,8 +59,15 @@ A : L = [(ali, 85), (mona, 92)].
 Q : ratings_of_book(recursion_in_depth, L).
 A : L = [(sara, 95), (omar, 80), (mona, 89), (karim, 83)].
 
-Q : 
+Q : ratings_of_book(ai_intro, L).
 A : L = [(sara, 88), (nour, 78)].
 
 Q : ratings_of_book(some_book_not_in_db, L).
 A : L = [].
+
+=====================================================
+Task 5
+=======
+
+Q : top_reviewer(S).
+A : S = sara.
