@@ -44,6 +44,18 @@ find_max([NextBook | RestBooks], CurrentMaxBook, CurrentMaxCount, FinalBestBook)
         find_max(RestBooks, CurrentMaxBook, CurrentMaxCount, FinalBestBook)
     ).
 
+
+%ratings_of_book 
+collect_ratings(_, [], []).
+
+collect_ratings(Book, [Student|Tail], [(Student,Score)|ResultsTail]) :-
+    rating(Student, Book, Score),
+    !,
+    collect_ratings(Book, Tail, ResultsTail).
+
+collect_ratings(Book, [_|Tail], ResultsTail) :-
+    collect_ratings(Book, Tail, ResultsTail).
+
 %------------------------------------ Main Tasks-------------------------------------%
 books_borrowed_by_student(Student, L) :-
     all_books(AllBooks),
@@ -56,3 +68,7 @@ borrowers_count(Book, Count):-
 most_borrowed_book(B):-
     all_books(Books),
     find_max(Books, 0, 0, B).
+
+ratings_of_book(Book, L) :-
+    all_students(Students),
+    collect_ratings(Book, Students, L).
