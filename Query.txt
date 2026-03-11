@@ -1,0 +1,40 @@
+Task 1
+=======
+
+Q : books_borrowed_by_student(ali, L).
+A : L = [prolog_fundamentals, list_programming].
+
+Q : books_borrowed_by_student(sara, L).
+A : L = [recursion_in_depth, ai_intro].
+
+Q : books_borrowed_by_student(omar, L).
+A : L = [recursion_in_depth].
+
+Q : books_borrowed_by_student(mona, L).
+A : L = [prolog_fundamentals, recursion_in_depth, list_programming].
+
+Q : books_borrowed_by_student(yousef, L).
+A : L = [list_programming].
+
+Q : books_borrowed_by_student(nour, L).
+A : L = [ai_intro].
+
+Q : books_borrowed_by_student(karim, L).
+A : L = [recursion_in_depth].
+
+========================================================
+Task 2
+======
+
+Q : borrowers_count(recursion_in_depth, N).
+A : N = 4.
+
+Q : borrowers_count(prolog_fundamentals, N).
+A : N = 2.
+
+
+Q : borrowers_count(list_programming, N).
+A : N = 3.
+
+Q : borrowers_count(ai_intro, N).
+A : N = 2.
