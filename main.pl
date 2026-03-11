@@ -50,8 +50,9 @@ books_borrowed_by_student(Student, L) :-
     filter_book(Student, AllBooks, L).
 
 borrowers_count(Book, Count):-
-    count_borrowers(Book, all_students(Students), Count).
+    all_students(Students),
+    count_borrowers(Book, Students, Count).
 
 most_borrowed_book(B):-
     all_books(Books),
-    find_max(Books, _, _, B).
+    find_max(Books, 0, 0, B).
