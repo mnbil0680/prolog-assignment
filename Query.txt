@@ -72,9 +72,5 @@ Task 5
 Q : top_reviewer(S).
 A : S = sara.
 
-====================================================
-Task 6
-=======
 
-Q : most_common_topic_for_student(mona, Topic).
-A : Topic = tracing.
+

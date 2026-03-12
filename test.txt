@@ -1,0 +1,3 @@
+cd /workspaces/prolog-assignment
+chmod +x run_queries.sh
+./run_queries.sh
