@@ -77,6 +77,57 @@ check_books_ratings(Student, [Book|Tail], CurrentMax, CurrentTopStudent, FinalMa
         TempTop = CurrentTopStudent
     ),
     check_books_ratings(Student, Tail, TempMax, TempTop, FinalMax, FinalTop).
+
+
+    % append multiple lists (flatten)
+flatten_lists([], []).
+flatten_lists([List|Tail], FlatList) :-
+    flatten_lists(Tail, FlatTail),
+    append_lists(List, FlatTail, FlatList).
+
+% append two lists (must come first)
+append_lists([], L, L).
+append_lists([H|T], L2, [H|R]) :-
+    append_lists(T, L2, R).
+
+% collect all topics from a list of books
+collect_topics([], []).
+collect_topics([Book|Tail], AllTopics) :-
+    topics(Book, BookTopics),
+    collect_topics(Tail, TailTopics),
+    append_lists(BookTopics, TailTopics, AllTopics).
+
+% count occurrences of an element in a list
+count_occurrences(_, [], 0).
+count_occurrences(X, [X|Tail], Count) :-
+    !,
+    count_occurrences(X, Tail, TailCount),
+    Count is TailCount + 1.
+count_occurrences(X, [_|Tail], Count) :-
+    count_occurrences(X, Tail, Count).
+
+% delete all occurrences of X from a list
+delete_all(_, [], []).
+delete_all(X, [X|Tail], Result) :-
+    !,
+    delete_all(X, Tail, Result).
+delete_all(X, [H|Tail], [H|Result]) :-
+    delete_all(X, Tail, Result).
+
+% find most frequent topic in a list
+find_max_topic([], Topic, _, Topic).
+find_max_topic([T|Tail], CurrentTopic, CurrentCount, MostFrequent) :-
+    count_occurrences(T, [T|Tail], C),
+    (C > CurrentCount ->  % strictly greater
+        NewTopic = T,
+        NewCount = C
+    ;
+        NewTopic = CurrentTopic,
+        NewCount = CurrentCount
+    ),
+    delete_all(T, Tail, NewTail),
+    find_max_topic(NewTail, NewTopic, NewCount, MostFrequent).
+
 %------------------------------------ Main Tasks-------------------------------------%
 books_borrowed_by_student(Student, L) :-
     all_books(AllBooks),
@@ -97,3 +148,9 @@ ratings_of_book(Book, L) :-
 top_reviewer(Student) :-
     all_students(Students),
     find_top_rating(Students, 0, none, Student).
+
+most_common_topic_for_student(Student, Topic) :-
+    books_borrowed_by_student(Student, Books),
+    collect_topics(Books, AllTopics),
+    AllTopics = [First|_],
+    find_max_topic(AllTopics, First, 0, Topic).
